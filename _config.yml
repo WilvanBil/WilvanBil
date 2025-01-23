@@ -22,7 +22,7 @@ title: Compiling life by Willy Alde
 email: willy.alde@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   This is my personal corner of the web, powered by Jekyll and hosted on GitHub Pages. Here, you'll find content related to my professional journey as a dotnet enthusiast.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/wilvanbil" # the subpath of your site, e.g. /blog
 url: "https://wilvanbil.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: willyalde
 github_username: wilvanbil
