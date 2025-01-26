@@ -13,6 +13,10 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
+  # Always rebuild at this time so site will always show the latest blog entry
+  schedule:
+    - cron: "30 9 * * 3" # 9:30 UTC = 11:30 CEST
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
