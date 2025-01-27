@@ -3,6 +3,7 @@ layout: post
 title:  "What I've Learned While Updating My NuGet Package"
 date:   2025-01-23 21:25:42 +0100
 categories: NuGet package
+description: "Discover the lessons I learned while modernizing my NuGet package for generating and validating Belgian national register numbers. From refactoring with DateOnly and TimeProvider to enhancing documentation and setting up CI/CD with GitHub Actions, this blog reflects on the technical and user-focused improvements I made."
 ---
 
 Here's the package:  

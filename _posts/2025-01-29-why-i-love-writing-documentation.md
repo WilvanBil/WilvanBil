@@ -3,6 +3,7 @@ layout: post
 title: " Why I Love Writing Documentation"
 date: 2025-01-29 12:00:00 +0100
 categories: Documentation
+description: "Explore the importance of writing clear, empathetic documentation. Learn tips for tackling documentation debt, creating effective READMEs, and leaving your code better than you found it."
 ---
 
 I love writing documentation. I really do.

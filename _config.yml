@@ -28,6 +28,11 @@ twitter_username: willyalde
 github_username: wilvanbil
 
 # Other Config
+social_links:
+  twitter: https://x.com/willyalde
+  github: https://github.com/wilvanbil
+  linkedin: https://linkedin.com/in/willyalde
+
 lsi: false
 safe: true
 source: .
