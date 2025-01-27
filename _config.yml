@@ -1,69 +1,50 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-
+# General Site Settings
 title: Compiling life by Willy Alde
 email: willy.alde@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
+description: >-
   This is my personal corner of the web, powered by Jekyll and hosted on GitHub Pages. Here, you'll find content related to my professional journey as a dotnet enthusiast.
-baseurl: "/WilvanBil" # the subpath of your site, e.g. /blog
-url: "https://wilvanbil.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/WilvanBil" # The subpath of your site, e.g., /blog
+url: "https://wilvanbil.github.io" # The base hostname & protocol for your site
+show_excerpts: true
+
+# Social Media
 twitter_username: willyalde
 github_username: wilvanbil
+linkedin_username: willyalde
 
-# Other Config
-social_links:
-  twitter: https://x.com/willyalde
-  github: https://github.com/wilvanbil
-  linkedin: https://linkedin.com/in/willyalde
-
-lsi: false
-safe: true
-source: .
-incremental: false
-highlighter: rouge
-gist:
-  noscript: false
-kramdown:
-  math_engine: mathjax
-  syntax_highlighter: rouge
+# Plugins and Themes
 remote_theme: jekyll/minima
 minima:
   skin: auto
 plugins:
   - jekyll-remote-theme
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+
+# SEO and Analytics
+google_analytics: UA-NNNNNNNN-N
+lsi: false
+
+# Markdown and Syntax Highlighting
+highlighter: rouge
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+gist:
+  noscript: false
+
+# Build Configuration
+safe: true
+source: .
+incremental: false
+
+# Excluded Files and Folders
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
