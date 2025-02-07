@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "I love ctrl+k"
+date:   2025-02-12 11:00:00 +0100
+categories: UI/UX
+description: ""
+---
+
+I love ctrl+k.Now If you tried to ctrl+k just now you owe me a follow on Github https://github.com/WilvanBil
+The term that I have found on the internet is called Site-wide search.
+
+It's a way to quickly look up pages in websites when you're looking for certain documentation
+MassTransit has it, Marten has it, Chili cream has it
+(add screenshots)
+
+It's such a cool, easy (and suprisingly fast) way to look up stuff.
+
+We also have this in our IDE's .
+Visual Studio 
+VS Code
+
+Please, if you have a website with a lot of documentation, tutorials, or guides. Try implementing these and encourage visitors to use the ctrl+k to search through this.
