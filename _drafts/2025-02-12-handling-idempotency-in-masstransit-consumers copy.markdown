@@ -6,40 +6,114 @@ categories: MassTransit
 description: ""
 ---
 
-There was a time that messaging was new to me. I started with API technologies in asmx web services, WCF and eventually moved on to Web Api, GraphQL, gRPC.
-What's this group called? Api's? Service-Oriented Architecture technologies? Communication Frameworks? In my head there's a cabinet that groups these under "Ways that other applications can communicate with my application".
-I had no experience with messagebrokers, message based frameworks until a recent project. We implemented MassTransit together with RabbitMQ and used the message based system to supplement our event driven micro services. But this blog is not about implementing MassTransit with RabbitMQ. MassTransit has an excellent quick start guide and documentation https://masstransit.io/ and a superhelpful Discord https://discord.com/invite/YEUrGcDP?utm_source=Discord%20Widget&utm_medium=Connect for more inquiries. You rock PhatBoyG. btw this is the best username I have ever read.
+## **From APIs to Messaging – My Journey**
 
-This entry is about handling idempotency.
+There was a time when **messaging systems** were completely new to me. I started with API-based communication—first **ASMX Web Services**, then **WCF**, and eventually **Web APIs, GraphQL, and gRPC**.
 
-TODO: Add example where I encountered idempotency
+How do these technologies fit together? In my head, they all belong to the same cabinet:  
+_“Ways that other applications can communicate with my application.”_  
 
+Then I encountered **message-based frameworks** like **MassTransit** and **RabbitMQ**, and my mental model had to expand.  
+Unlike APIs, where **a request always expects a response**, event-driven systems introduce **asynchronous workflows, retries, and, of course, idempotency challenges.**  
 
-What is idempotency?
-TODO: Add definition of idempotency here
+This doesn't mean that REST/GraphQL APIs don't need idempotency. (on the contrary), but this is about my experience with idempotency with messaging based systems.
 
-give scenario:
-Imagine you have a consumer that creates payments towards a store.
-Something like PaymentsConsumer: IConsumer<OrderCreated> 
+---
 
-It receives an OrderCreated event and will then create a payment for that store.
+## **What Is Idempotency?**
 
-All is good and well, however, what happens if another OrderCreated event comes in with the exact same parameters? Maybe it's a new order, maybe it's the same order? What do we want to happen?
+According to [Wikipedia](https://en.wikipedia.org/wiki/Idempotence):
 
-What if the same event is processed multiple times?
+> "Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application."
 
-The message broker could retry the message due to network failures.
-The producer could have accidentally published it twice.
-Your system could restart mid-processing, leading to duplicates.
+💡 **For developers, idempotency means that processing the same message multiple times should have the same effect as processing it once.**  
 
-🔴 Result: The customer gets charged twice for the same order. The finance team is not happy.
+### **Why Does It Matter?**
 
-✅ Solution: Idempotency ensures that even if an operation runs multiple times, the result remains the same.
-Stuff with concurrency, multiple consumers that can receive the same message( message content)
-stuff with retries, failures in the code or outages can make sure that a message can't be fully processed
+Imagine you have a **consumer that processes payments** when an `PremiumApprovedEvent` is received.
 
-Ways to handle idempotency here.
+```csharp
+public class CreatePaymentsConsumer : IConsumer<PremiumApprovedEvent>
+{
+    public async Task Consume(ConsumeContext<PremiumApprovedEvent> context)
+    {
+        await ProcessPayment(context.Message);
+    }
+}
+```
 
-The issues that I encountered
-solutions
-Tips
+Looks simple, right? **But here’s the problem:**  
+
+What if **the same event is processed multiple times**?  
+
+- The message broker **could retry** the message due to network failures.  
+- The producer **could have accidentally published it twice.**  
+- Your system **could restart mid-processing**, leading to duplicates.  
+
+🔴 **Result:** The customer gets charged **twice** for the same order. The finance team is not happy.  
+
+✅ **Solution:** Idempotency ensures that even if an operation runs multiple times, **the result remains the same**.
+
+---
+
+## **The Problem: Handling Duplicate Events in MassTransit**
+
+I ran into this issue when working on a **MassTransit consumer that processes payments**. The consumer listens for a `PremiumApprovedEvent` to trigger a payment.
+
+```csharp
+public record PremiumApprovedEvent(Guid PremiumId, decimal Amount);
+```
+
+Every time this event arrives, the system **creates a new payment request**. But soon, we noticed duplicate payments appearing in our database.
+
+🔍 **Possible Causes of Duplicate Events**:
+
+- **Message Retries** – RabbitMQ or MassTransit could retry the message if an acknowledgment isn’t received.  
+- **Duplicate Messages from the Producer** – The event publisher might accidentally send the same event twice.  
+- **Multiple Consumer Instances** – When scaling consumers horizontally, multiple pods may receive and process the same event.  
+- **Application Restarts Mid-Processing** – If the consumer crashes after processing but before confirming success, the message gets reprocessed.
+- **Out-of-Order Events** – Events may arrive in the wrong sequence, causing incorrect state updates.
+- **Database Transactions Not Committed Atomically** – A crash mid-processing may result in duplicate inserts.
+Each of these scenarios **creates the risk of duplicate transactions**. So, how do we handle idempotency in MassTransit?
+
+---
+
+Retry
+Redelivery
+
+---
+
+Producer sends same event multiple times, add business checks if it's allowed
+
+---
+
+When working with concurrent consumers. (multiple consumer instances)
+
+```csharp
+public class CreatePaymentsConsumerDefinition(IOptions<ConsumerConfig> consumerConfig) : ConsumerDefinition<CreatePaymentsConsumer>
+{
+    public CreatePaymentsConsumerDefinition()
+    
+        ConcurrentMessageLimit = 2;
+    }
+    protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<CreatePaymentsConsumer> consumerConfigurator, IRegistrationContext context)
+    {
+        // Consumer config
+    }
+}
+```
+
+There's a difference between concurrent consumers vs concurrent pods in AKS. (horizontal scaling)
+
+TODO: Go through each scenario and explain what goes wrong, what we can do to remedy it.
+Are there built in measurements that we can take?
+Ways to handle idempotency here
+---
+
+## **Final Thoughts**
+
+🔹 **Idempotency is crucial** for event-driven systems—always assume messages might be **retried or redelivered**.  
+🔹 **Different approaches work in different contexts**—sometimes **database deduplication** is best, other times **transport-level solutions** work better.  
+🔹 **MassTransit provides useful tools**, but you still need **a strategy** that fits your business logic.  
+
+**How do you handle idempotency in your event-driven services? Let’s discuss!** 🚀
