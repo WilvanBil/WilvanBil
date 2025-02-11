@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "I Love Ctrl+K (And You Should Too)"
-date: 2025-02-12 10:00:00 +0100
+date: 2025-02-11 21:00:00 +0100
 categories: UI/UX frontend
 description: "How Ctrl+K search improves website navigation and productivity."
 ---
