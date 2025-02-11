@@ -1,0 +1,122 @@
+---
+layout: post
+title: "I Love Ctrl+K (And You Should Too)"
+date: 2025-02-12 10:00:00 +0100
+categories: UI/UX frontend
+description: "How Ctrl+K search improves website navigation and productivity."
+---
+
+Did you just try pressing `Ctrl+K`? If so, you owe me a follow on [GitHub](https://github.com/WilvanBil). But seriously, let's talk about why this shortcut is amazing.
+
+## Finding Docs Shouldn’t Feel Like a Side Quest  
+
+I love [writing](https://blog.willyal.de/documentation/2025/01/29/why-i-love-writing-documentation.html) great documentation, but I **dislike searching** documentation. You know the drill—you're in the middle of coding, and you need to look up a method or a configuration. You open the official docs, click through a few sections, scroll endlessly and somehow still don’t get the right result. So what do you do? You **Google it instead**.  
+
+That was me—until I found `Ctrl+K`.  
+
+---
+
+## What is `Ctrl+K` Search?  
+
+The feature you see when pressing `Ctrl+K` on some websites is called:  
+
+- **Site-wide Search**  
+- **Command Palette**  
+
+It’s a fast way to find pages, documentation, and commands **without clicking through menus**.  
+It works by indexing the entire site’s content, allowing for near-instant retrieval as you type. Instead of waiting for a page reload, results update in real-time, just like an IDE’s symbol search.
+
+### Why should you care?  
+
+Because **nobody enjoys digging through dropdowns** just to find one page. Microsoft has vast amounts of documentation that regularly gets updated, but it lacks one feature that I miss—`Ctrl+K`.  
+
+For example, say I want to search **[Azure OpenAI SDK Docs](https://learn.microsoft.com/en-us/dotnet/api/overview/azure/ai.openai-readme?view=azure-dotnet)** for how to work with `ChatClient`. You’d think I could **just search for it**, right?  
+
+Well… not quite.  
+
+![MicrosoftFilter]({{ site.baseurl }}/assets/ctrl+k/MicrosoftFilter.png)  
+*I can filter by title on the left.*  
+
+![MicrosoftSearch]({{ site.baseurl }}/assets/ctrl+k/MicrosoftSearch.png)  
+*I can click the search button on the top right.*  
+
+Each of these requires extra steps—moving your mouse, clicking, typing, pressing enter, and then scrolling through results. That’s **five steps** before I even get to what I need.  
+
+Compare this to how I navigate **[MassTransit](https://masstransit.io/)** docs…  
+
+---
+
+## The First Time I Used `Ctrl+K`  
+
+The first time I saw a `Ctrl+K` search bar was in the **[MassTransit](https://masstransit.io/)** docs.  
+
+I was deep in the trenches, trying to figure out why my saga wasn’t behaving (as all sagas do). So I made my way to the **MassTransit** site and noticed this in the menu:  
+
+![MassTransitSearch]({{ site.baseurl }}/assets/ctrl+k/MassTransitSearch.png)  
+
+Don’t panic if you see a `⌘` instead of `Ctrl`. That’s macOS pretending it's special. At this point, I was already mentally preparing for a deep dive into the docs, scanning the navigation sidebar, maybe hitting `Ctrl+F` and manually searching. But then… I saw it. Out of curiosity, I hit Ctrl+K, typed "saga," and within seconds, the exact page I needed popped up. No Google. No Stack Overflow rabbit holes. Just the answer. After that, I started noticing `Ctrl+K` everywhere.  
+
+I've seen it on many different sites.
+
+### [MassTransit](https://masstransit.io/)  
+
+![MassTransitSearchResults]({{ site.baseurl }}/assets/ctrl+k/MassTransitSearchResults.png)  
+
+### [Marten](https://martendb.io/)  
+
+![MartenSearchResults]({{ site.baseurl }}/assets/ctrl+k/MartenSearchResults.png)  
+
+### [ChiliCream](https://chillicream.com/)  
+
+![ChilliCreamSearchResults]({{ site.baseurl }}/assets/ctrl+k/ChilliCreamSearchResults.png)  
+
+---
+
+## Why I Use `Ctrl+K` Over Traditional Search  
+
+I'm used to relying on Google and Stack Overflow, but more and more, I find myself turning to official documentation first.  
+Instead of searching Google for **“MassTransit JobConsumer”**, just press `Ctrl+K` → type "JobConsumer" and get instant, relevant results. The first time, you’ll still need to navigate to the site, but once you’re there, searching for different topics becomes effortless.
+
+Why it’s useful:  
+
+- **Faster:** Results appear immediately  
+- **More relevant:** Suggests related topics  
+- **No extra navigation:** No need to manually browse docs  
+- **More sites are adopting it:** Once you start using it, you’ll miss it everywhere else  
+
+---
+
+## IDE Shortcuts Do the Same Thing—So Why Not Docs?  
+
+If you’re a developer, you already expect fast navigation.  
+We don’t **scroll through files manually**, we use shortcuts like these:  
+
+| Shortcut | Feature | Purpose |
+|----------|---------|---------|
+| `Ctrl+K` (Web) | Site-wide search | Search docs & pages |
+| `Ctrl+T` (VS) | Go to Symbol | Find classes/methods/files |
+| `Ctrl+P` (VS Code) | Quick Open | Open files quickly |
+| `Ctrl+Shift+P` (VS Code) | Command Palette | Execute VS Code commands |
+
+If you’re already using `Ctrl+T` in **Visual Studio** or `Ctrl+P` in **VS Code** to jump to files instantly, why wouldn’t you want the same for documentation?  
+
+![VisualStudioSearchResults]({{ site.baseurl }}/assets/ctrl+k/VisualStudioSearchResults.png)  
+
+![VisualStudioCodeSearchResults]({{ site.baseurl }}/assets/ctrl+k/VisualStudioCodeSearchResults.png)  
+
+I used to press `Ctrl+Shift+F` like a chump to find code, but `Ctrl+T`/`Ctrl+P` lets me jump straight to what I need.  
+**Same energy as `Ctrl+K` on websites.**  
+
+---
+
+## Final Thoughts  
+
+If you’ve ever been frustrated digging through documentation, `Ctrl+K` search is a game-changer. Instead of endless clicks, dropdowns, and Google detours, you get instant, relevant results—right where you need them.
+
+- If you maintain documentation, add `Ctrl+K` support.
+- If you browse documentation, start using it.
+
+And if you ever catch yourself clicking through menus, ask why the site doesn’t have it yet.
+
+Meanwhile, I’ll be Googling how to add `Ctrl+K` to this blog.
+Oh wait… should I just use `Ctrl+K`?
