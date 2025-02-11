@@ -3,7 +3,7 @@ title: Compiling life by Willy Alde
 email: willy.alde@gmail.com
 description: >-
   This is my personal corner of the web, powered by Jekyll and hosted on GitHub Pages. Here, you'll find content related to my professional journey as a dotnet enthusiast.
-baseurl: "/WilvanBil" # The subpath of your site, e.g., /blog
+baseurl: "" # The subpath of your site, e.g., /blog
 url: "https://wilvanbil.github.io" # The base hostname & protocol for your site
 show_excerpts: true
 

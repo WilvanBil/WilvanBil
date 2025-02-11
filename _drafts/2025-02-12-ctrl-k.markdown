@@ -1,0 +1,83 @@
+---
+layout: post
+title:  "I Love Ctrl+K (And You Should Too)"
+date:   2025-02-12 11:00:00 +0100
+categories: UI/UX frontend
+description: "How Ctrl+K search improves website navigation and productivity."
+---
+
+## 🚀 I Love Ctrl+K  
+
+Did you just try pressing **Ctrl+K**? If so, you owe me a follow on [GitHub](https://github.com/WilvanBil). But seriously, let's talk about why this shortcut is amazing.
+
+## 🔍 What is Ctrl+K Search?  
+
+The feature you see when pressing **Ctrl+K** on some websites is called:  
+
+- **Site-wide Search**  
+- **Command Palette**  
+- **OmniSearch**  
+
+👉 It’s a fast way to find pages, documentation, and commands **without clicking through menus**.  
+
+## 📚 Examples of Ctrl+K in Action  
+
+Many popular frameworks and tools support this:  
+
+### **1️⃣ MassTransit**
+
+(Screenshot: _Insert screenshot of Ctrl+K search in MassTransit docs_)  
+🔹 **Why it’s useful:** _[Brief explanation]_
+
+### **2️⃣ Marten**
+
+(Screenshot: _Insert screenshot of Ctrl+K search in Marten docs_)  
+🔹 **Why it’s useful:** _[Brief explanation]_
+
+### **3️⃣ ChiliCream GraphQL**
+
+(Screenshot: _Insert screenshot of Ctrl+K search in ChiliCream docs_)  
+🔹 **Why it’s useful:** _[Brief explanation]_
+
+## 🎯 Why is Ctrl+K So Powerful?  
+
+Instead of searching Google for **“MassTransit JobConsumer”**, just press **Ctrl+K → type "JobConsumer"** and get instant, relevant results.  
+
+🔹 **Why I love it:**  
+✅ **Fast:** No waiting, results appear instantly.  
+✅ **Relevant:** It suggests related topics you didn’t think of.  
+✅ **Efficient:** No need to navigate through docs manually.  
+✅ **Standardized:** More sites are adopting this.  
+
+## 🔍 Similar Features in IDEs  
+
+This isn’t just for websites—**our IDEs do it too!**  
+
+| Shortcut | Feature | Purpose |
+|----------|---------|---------|
+| **Ctrl+K (Web)** | Site-wide search | Search docs & pages |
+| **Ctrl+T (VS)** | Go to Symbol | Find classes/methods/files |
+| **Ctrl+P (VS Code)** | Quick Open | Open files quickly |
+| **Ctrl+Shift+P (VS Code)** | Command Palette | Execute VS Code commands |
+
+🔹 **Example: Visual Studio**  
+_(Screenshot of Ctrl+T searching for a class)_  
+🔹 **Example: VS Code**  
+_(Screenshot of Ctrl+P opening a file)_
+
+I used to press **Ctrl+Shift+F** like a chump to find code, but **Ctrl+T** lets me jump straight to what I need. **Same energy as Ctrl+K on websites.**
+
+## 🛠️ How to Add Ctrl+K Search to Your Own Site  
+
+If you run a blog or documentation site, you NEED this feature.  
+
+🔹 **Here’s a simple way to add it to a GitHub Pages site using Ruby:**  
+_(Placeholder for implementation guide)_  
+
+## 🔥 Final Thoughts  
+
+If you have a site with **lots of docs, tutorials, or guides**, do your users a favor:  
+✅ **Add Ctrl+K search**  
+✅ **Encourage visitors to use it**  
+
+I’d love to hear from you! If you implement it, let me know on [GitHub](https://github.com/WilvanBil). 🚀

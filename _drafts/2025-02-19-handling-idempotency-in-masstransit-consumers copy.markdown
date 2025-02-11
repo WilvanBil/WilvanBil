@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "How I (try to) handle idempotency in my MassTransit consumers"
-date:   2025-02-12 11:00:00 +0100
+date:   2025-02-19 11:00:00 +0100
 categories: MassTransit
 description: ""
 ---
