@@ -1,3 +1,3 @@
 Hello~
 
-Here's my [blog](https://wilvanbil.github.io/WilvanBil/)!
+Here's my [blog](https://blog.willyal.de/)!
