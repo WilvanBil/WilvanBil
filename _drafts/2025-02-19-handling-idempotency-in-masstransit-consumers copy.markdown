@@ -1,22 +1,21 @@
 ---
 layout: post
-title:  "How I (try to) handle idempotency in my MassTransit consumers"
+title:  "How I (Try to) Handle Idempotency in My MassTransit Consumers"
 date:   2025-02-19 11:00:00 +0100
 categories: MassTransit
-description: ""
+description: "A deep dive into handling idempotency in MassTransit consumers—why it matters, where things go wrong, and how to fix it."
 ---
 
 ## **From APIs to Messaging – My Journey**
 
-There was a time when **messaging systems** were completely new to me. I started with API-based communication—first **ASMX Web Services**, then **WCF**, and eventually **Web APIs, GraphQL, and gRPC**.
+There was a time when **messaging systems** were completely foreign to me. I started in the world of API-based communication—first **ASMX Web Services**, then **WCF**, and eventually **Web APIs, GraphQL, and gRPC**.
 
-How do these technologies fit together? In my head, they all belong to the same cabinet:  
+How do these fit together? In my head, they all belong to the same category:  
 _“Ways that other applications can communicate with my application.”_  
 
-Then I encountered **message-based frameworks** like **MassTransit** and **RabbitMQ**, and my mental model had to expand.  
-Unlike APIs, where **a request always expects a response**, event-driven systems introduce **asynchronous workflows, retries, and, of course, idempotency challenges.**  
+Then I encountered **MassTransit** and **RabbitMQ**, and suddenly, things weren’t so simple anymore. Unlike APIs, where **a request expects a response**, event-driven systems introduce **asynchronous workflows, retries, and idempotency challenges.**  
 
-This doesn't mean that REST/GraphQL APIs don't need idempotency. (on the contrary), but this is about my experience with idempotency with messaging based systems.
+This blog is about **idempotency in messaging**—why it matters, what can go wrong, and how I (try to) solve it.
 
 ---
 
@@ -26,94 +25,117 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Idempotence):
 
 > "Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application."
 
-💡 **For developers, idempotency means that processing the same message multiple times should have the same effect as processing it once.**  
+For developers, idempotency means that **processing the same message multiple times should have the same effect as processing it once**.
 
-### **Why Does It Matter?**
+---
 
-Imagine you have a **consumer that processes payments** when an `PremiumApprovedEvent` is received.
+## **The Problem: Handling Duplicate Events in MassTransit**
+
+Imagine you have a **consumer that processes payments** when a `PremiumApprovedEvent` is received.
 
 ```csharp
 public class CreatePaymentsConsumer : IConsumer<PremiumApprovedEvent>
 {
     public async Task Consume(ConsumeContext<PremiumApprovedEvent> context)
     {
-        await ProcessPayment(context.Message);
+        await ProcessPaymentAsync(context.Message, context.CancellationToken);
     }
 }
 ```
 
-Looks simple, right? **But here’s the problem:**  
+Looks simple, right? But here’s the problem:  
 
-What if **the same event is processed multiple times**?  
+### **What if the same event is processed multiple times?**  
 
-- The message broker **could retry** the message due to network failures.  
-- The producer **could have accidentally published it twice.**  
-- Your system **could restart mid-processing**, leading to duplicates.  
+- The **message broker retries** the message due to a network failure.  
+- The **producer accidentally publishes the event twice**.  
+- Your system **restarts mid-processing**, leading to duplicate processing.  
 
-🔴 **Result:** The customer gets charged **twice** for the same order. The finance team is not happy.  
+🔴 **Result:** The customer gets charged **twice**. Well maybe not twice but definitely not only once. As a result the finance team is not happy.  
 
 ✅ **Solution:** Idempotency ensures that even if an operation runs multiple times, **the result remains the same**.
 
 ---
 
-## **The Problem: Handling Duplicate Events in MassTransit**
+## **Why Duplicate Events Happen in Messaging Systems**
 
-I ran into this issue when working on a **MassTransit consumer that processes payments**. The consumer listens for a `PremiumApprovedEvent` to trigger a payment.
+At first, I assumed **duplicates were a rare edge case**.  
+Then reality hit me. **Duplicate messages happen all the time**. Here’s why:
+
+- **Message Retries** – MassTransit retries failed messages automatically.  
+- **Duplicate Messages from the Producer** – The same event may be published twice due to lack of validation on producer side.  
+- **Application Restarts Mid-Processing** – If the consumer crashes **after** processing but **before** acknowledging success, the message gets retried.  
+- **Out-of-Order Events** – Events might arrive in an unexpected sequence, leading to incorrect state updates.  
+- **Database Transactions Not Committed Atomically** – A failure before committing can lead to duplicate inserts.
+
+Every one of these scenarios **introduces the risk of duplicate transactions**. So, how do we prevent them?
+
+---
+
+## **How I Handle Idempotency in MassTransit Consumers**  
+
+There’s no **one-size-fits-all** solution, but here’s how I (try to) handle idempotency.  
+
+### **1️⃣ Deduplication Using a Database Check**
+
+One of the easiest ways to ensure idempotency is **storing processed message IDs** in the database.
 
 ```csharp
-public record PremiumApprovedEvent(Guid PremiumId, decimal Amount);
-```
-
-Every time this event arrives, the system **creates a new payment request**. But soon, we noticed duplicate payments appearing in our database.
-
-🔍 **Possible Causes of Duplicate Events**:
-
-- **Message Retries** – RabbitMQ or MassTransit could retry the message if an acknowledgment isn’t received.  
-- **Duplicate Messages from the Producer** – The event publisher might accidentally send the same event twice.  
-- **Multiple Consumer Instances** – When scaling consumers horizontally, multiple pods may receive and process the same event.  
-- **Application Restarts Mid-Processing** – If the consumer crashes after processing but before confirming success, the message gets reprocessed.
-- **Out-of-Order Events** – Events may arrive in the wrong sequence, causing incorrect state updates.
-- **Database Transactions Not Committed Atomically** – A crash mid-processing may result in duplicate inserts.
-Each of these scenarios **creates the risk of duplicate transactions**. So, how do we handle idempotency in MassTransit?
-
----
-
-Retry
-Redelivery
-
----
-
-Producer sends same event multiple times, add business checks if it's allowed
-
----
-
-When working with concurrent consumers. (multiple consumer instances)
-
-```csharp
-public class CreatePaymentsConsumerDefinition(IOptions<ConsumerConfig> consumerConfig) : ConsumerDefinition<CreatePaymentsConsumer>
+public async Task Consume(ConsumeContext<PremiumApprovedEvent> context)
 {
-    public CreatePaymentsConsumerDefinition()
-    
-        ConcurrentMessageLimit = 2;
-    }
-    protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<CreatePaymentsConsumer> consumerConfigurator, IRegistrationContext context)
+    if (await _dbContext.ProcessedEvents.AnyAsync(e => e.MessageId == context.MessageId))
     {
-        // Consumer config
+        _logger.LogInformation("Duplicate event detected, skipping...");
+        return;
     }
+
+    var payment = new Payment(context.Message.PremiumId, context.Message.Amount);
+    _dbContext.Payments.Add(payment);
+
+    _dbContext.ProcessedEvents.Add(new ProcessedEvent { MessageId = context.MessageId });
+    await _dbContext.SaveChangesAsync();
 }
 ```
 
-There's a difference between concurrent consumers vs concurrent pods in AKS. (horizontal scaling)
+🔹 **Pros**: Simple, reliable, doesn’t require infrastructure changes.  
+🔹 **Cons**: Requires a database write for every processed event.  
 
-TODO: Go through each scenario and explain what goes wrong, what we can do to remedy it.
-Are there built in measurements that we can take?
-Ways to handle idempotency here
 ---
 
-## **Final Thoughts**
+### **Business Logic-Based Deduplication**
 
-🔹 **Idempotency is crucial** for event-driven systems—always assume messages might be **retried or redelivered**.  
-🔹 **Different approaches work in different contexts**—sometimes **database deduplication** is best, other times **transport-level solutions** work better.  
-🔹 **MassTransit provides useful tools**, but you still need **a strategy** that fits your business logic.  
+Sometimes, **idempotency should happen at the business level**.
 
-**How do you handle idempotency in your event-driven services? Let’s discuss!** 🚀
+For example, when creating payments, we can check if a payment already exists **before inserting a new one**.
+
+```csharp
+if (await _dbContext.Payments.AnyAsync(p => p.PremiumId == context.Message.PremiumId))
+{
+    _logger.LogInformation("Payment already exists, skipping...");
+    return;
+}
+```
+
+🔹 **Pros**: Business-driven, avoids unnecessary operations.  
+🔹 **Cons**: Needs careful handling of **partial processing failures**.
+
+---
+
+## **Final Thoughts**  
+
+Idempotency is one of those things that seems **obvious in theory** but **frustrating in practice**.  
+It’s easy to say, “Just make it idempotent,” but reality is messy. Messages get retried, failures happen, and distributed systems are unpredictable.
+
+Here’s what I’ve learned:  
+
+- **Expect duplicates.** Don’t assume a message is only processed once.  
+- **Use database deduplication where it makes sense.** But be mindful of performance.  
+- **Leverage MassTransit’s built-in tools** like `InMemoryOutbox` or message tracking.  
+- **Consider the business rules.** Sometimes, idempotency logic should live in your domain.  
+- **Tuning concurrency matters.** If duplicate processing is causing issues, limit concurrent consumers.  
+
+What are your best practices for handling idempotency in event-driven systems?  
+Let’s discuss—I’d love to hear how others tackle this challenge.  
+
+Now, if only I could make my brain idempotent so I stop forgetting why I wrote this blog in the first place.  
+Oh well, at least next time I can just `Ctrl+K` search for it. 😉  
