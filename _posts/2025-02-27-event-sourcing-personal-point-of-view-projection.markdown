@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Event Sourcing: Personal Point of View(Projection)"
-date: 2025-02-26 10:00:00 +0100
+date: 2025-02-27 10:00:00 +0100
 categories: Event Sourcing State Domain Driven Design
 description: "Events shape us, just like they shape systems. In event sourcing, events are immutable, but how we project them changes everything. The same is true for life."
 ---
@@ -130,49 +130,7 @@ In event sourcing, we build different read models from the same set of events, e
 
 ## Running a Marathon: Replaying Events to Predict the Future
 
-Training for a marathon isn’t about a single day—it’s a series of events. Each run builds on the previous one, adjusting pace, endurance, and recovery strategies.
-
-```csharp
-public record RunCompleted(Guid UserId, double Distance, TimeSpan Duration, DateTime Date);
-```
-
-A fitness app replays past events to predict future performance:
-
-```csharp
-public class MarathonProjection
-{
-    public TimeSpan PredictNextRunTime(IEnumerable<RunCompleted> runs)
-    {
-        var orderedRuns = runs.OrderBy(run => run.Date); // Ensure correct order
-        var averagePace = orderedRuns.Average(run => run.Duration.TotalMinutes / run.Distance);
-        return TimeSpan.FromMinutes(42.195 * averagePace); // Predict marathon time
-    }
-}
-```
-
-### Why Order Matters in Event Sourcing
-
-What if events were processed out of order? Imagine a user logs their marathon race before logging all their training runs:
-
-```csharp
-var runs = new List<RunCompleted>
-{
-    new(Guid.NewGuid(), 42.195, TimeSpan.FromHours(3.5), DateTime.Parse("2025-10-12")), // Marathon first
-    new(Guid.NewGuid(), 10, TimeSpan.FromMinutes(50), DateTime.Parse("2025-08-15")),  // Training run logged late
-    new(Guid.NewGuid(), 5, TimeSpan.FromMinutes(25), DateTime.Parse("2025-07-20"))  // Short run
-};
-```
-
-If we naively compute the average pace without sorting by date, the projection might assume the first logged event (the marathon itself) was a training run—leading to completely misleading insights.  
-
-### Correcting the Projection
-
-By ensuring events are processed in order, we maintain an accurate picture of progression over time.  
-
-```csharp
-// Here it's ordered by date, but most Event Stores have built in ways to handle sequence order of events, for example a SequenceNumber
-var orderedRuns = runs.OrderBy(run => run.Date);
-```
+TODO: Rewrite because it's crap now.
 
 ---
 
