@@ -19,16 +19,16 @@ Event sourcing works the same way. In software, just like in life, events are th
 
 My first real experience with event sourcing came on my current project. Before that, I was used to simple state-based modeling. CRUD operations, a repository that handled reads and writes, and if we needed history, we had an audit table—but that wasn't event sourcing.
 
-I had received training on **Event Sourcing, Domain-Driven Design, and Event Storming**, but it never fully clicked. Concepts like **aggregates, event streams, and projections** sounded abstract. It wasn’t until I actually worked with **Marten** for event storage and **MassTransit** for handling integration events that I began to understand. That’s when I truly saw the **importance of immutability and proper event handling.**
+I had received training on **Event Sourcing, Domain-Driven Design, and Event Storming**, but it never fully clicked. Concepts like **aggregates, event streams, and projections** sounded abstract. It wasn’t until I actually worked on a project level with **Marten** for event storage and **MassTransit** for handling integration events that I began to understand. That’s when I truly saw the **importance of immutability and proper event handling.**
 
 ---
 
 ## Just Another Event Sourcing Blog?
 
-Earlier this year, I noticed something in the code I was reviewing. **I saw event sourcing misused in code.** A flow replayed events in the wrong order, breaking the logic.
+Earlier this year, I noticed something in the code I was reviewing. **I saw event sourcing misused in code.** A flow replayed events in the wrong order, breaking the logic and obscuring the truth.
 
 It also made me reflect on **real-life events**—how they shape us, how we wish we could change them, and how, in the end, we can’t. But what we *can* change is our **perspective**.
-This is not a blog on how to setup Event Sourcing. There are plenty of those out there. This blog is about linking the concepts to real life events.
+This is not a blog on how to setup Event Sourcing. There are plenty of those out there. This blog is a bit more personal about linking the concepts to real life events.
 
 ## Modeling Life as an Event Stream
 
@@ -59,11 +59,11 @@ We can't change these events. But we can create different projections based on t
 
 ## The Chat Message That Fell Flat: Events Cannot Be Undone
 
-Event sourcing follows an append-only log. You send a message in your chatgroup, thinking it's funny. It isn't. You regret it. But in event sourcing, you can’t delete an event—you can only append a new one.
+Event sourcing follows an append-only log. You send a message in a chatgroup, thinking it's funny. It isn't. You regret it and in hindsight you wish you could undo it. But in event sourcing, you can’t delete an event—you can only append a new one.
 
 ```csharp
 public record MessageSent(Guid MessageId, string Content, DateTime Timestamp);
-public record MessageDeleted(Guid MessageId, DateTime Timestamp);
+public record MessageDeleted(Guid MessageId, DateTime Timestamp, string Reason);
 ```
 
 Even if you "delete" a message, someone might have seen it, the original still exists in the event log:
@@ -72,7 +72,7 @@ Even if you "delete" a message, someone might have seen it, the original still e
 var chatEvents = new List<object>
 {
     new MessageSent(Guid.NewGuid(), "Haha, this joke will land!", DateTime.UtcNow),
-    new MessageDeleted(Guid.NewGuid(), DateTime.UtcNow.AddMinutes(1))
+    new MessageDeleted(Guid.NewGuid(), DateTime.UtcNow.AddMinutes(1), "It was insensitive and not funny.")
 };
 ```
 
@@ -128,51 +128,13 @@ In event sourcing, we build different read models from the same set of events, e
 
 ---
 
-## Running a Marathon: Replaying Events to Predict the Future
+## Running a Marathon: Order Matters
 
 Training for a marathon isn’t about a single day—it’s a series of events. Each run builds on the previous one, adjusting pace, endurance, and recovery strategies.
 
-```csharp
-public record RunCompleted(Guid UserId, double Distance, TimeSpan Duration, DateTime Date);
-```
+Consider the following events:
 
-A fitness app replays past events to predict future performance:
 
-```csharp
-public class MarathonProjection
-{
-    public TimeSpan PredictNextRunTime(IEnumerable<RunCompleted> runs)
-    {
-        var orderedRuns = runs.OrderBy(run => run.Date); // Ensure correct order
-        var averagePace = orderedRuns.Average(run => run.Duration.TotalMinutes / run.Distance);
-        return TimeSpan.FromMinutes(42.195 * averagePace); // Predict marathon time
-    }
-}
-```
-
-### Why Order Matters in Event Sourcing
-
-What if events were processed out of order? Imagine a user logs their marathon race before logging all their training runs:
-
-```csharp
-var runs = new List<RunCompleted>
-{
-    new(Guid.NewGuid(), 42.195, TimeSpan.FromHours(3.5), DateTime.Parse("2025-10-12")), // Marathon first
-    new(Guid.NewGuid(), 10, TimeSpan.FromMinutes(50), DateTime.Parse("2025-08-15")),  // Training run logged late
-    new(Guid.NewGuid(), 5, TimeSpan.FromMinutes(25), DateTime.Parse("2025-07-20"))  // Short run
-};
-```
-
-If we naively compute the average pace without sorting by date, the projection might assume the first logged event (the marathon itself) was a training run—leading to completely misleading insights.  
-
-### Correcting the Projection
-
-By ensuring events are processed in order, we maintain an accurate picture of progression over time.  
-
-```csharp
-// Here it's ordered by date, but most Event Stores have built in ways to handle sequence order of events, for example a SequenceNumber
-var orderedRuns = runs.OrderBy(run => run.Date);
-```
 
 ---
 
