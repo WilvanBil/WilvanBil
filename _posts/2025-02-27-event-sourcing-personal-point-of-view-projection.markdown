@@ -8,7 +8,7 @@ description: "Events shape us, just like they shape systems. In event sourcing, 
 
 ## If you could rewrite a moment from your past, would you?
 
-There are moments we wish we could rewrite. That awkward comment in class, the PowerPoint presentation we bombed, the goodbye we never got to say. But events, once they happen, are immutable.  
+There are moments we wish we could rewrite. That awkward comment in class, the PowerPoint presentation we fumbled, the goodbye we never got to say. But events, once they happen, are immutable.  
 We can replay them in our minds, analyze them from different angles, but we can't change them.
 
 Event sourcing works the same way. In software, just like in life, events are the truth of what happened—unalterable, immutable. But just like in life, the way we interpret those events can change everything.
@@ -19,7 +19,7 @@ Event sourcing works the same way. In software, just like in life, events are th
 
 My first real experience with event sourcing came on my current project. Before that, I was used to simple state-based modeling. CRUD operations, a repository that handled reads and writes, and if we needed history, we had an audit table—but that wasn't event sourcing.
 
-I had received training on **Event Sourcing, Domain-Driven Design, and Event Storming**, but it never fully clicked. Concepts like **aggregates, event streams, and projections** sounded abstract. It wasn’t until I actually worked on a project level with **Marten** for event storage and **MassTransit** for handling integration events that I began to understand. That’s when I truly saw the **importance of immutability and proper event handling.**
+I had received training on **Event Sourcing, Domain-Driven Design, and Event Storming**, but it never fully clicked. Concepts like **aggregates, event streams, and projections** sounded abstract. It wasn’t until I actually worked on a project level that I began to understand. That’s when I truly saw the **importance of immutability and proper event handling.**
 
 ---
 
@@ -28,7 +28,7 @@ I had received training on **Event Sourcing, Domain-Driven Design, and Event Sto
 Earlier this year, I noticed something in the code I was reviewing. **I saw event sourcing misused in code.** A flow replayed events in the wrong order, breaking the logic and obscuring the truth.
 
 It also made me reflect on **real-life events**—how they shape us, how we wish we could change them, and how, in the end, we can’t. But what we *can* change is our **perspective**.
-This is not a blog on how to setup Event Sourcing. There are plenty of those out there. This blog is a bit more personal about linking the concepts to real life events.
+This is not a blog on how to setup Event Sourcing. There are plenty of those out there. This blog is personal. I’m linking event sourcing to my real-life experiences, hoping it helps others see why it’s so powerful.
 
 ## Modeling Life as an Event Stream
 
@@ -54,6 +54,7 @@ var lifeEvents = new List<EventOccurred>
 ```
 
 We can't change these events. But we can create different projections based on them.
+Here are a couple of examples.
 
 ---
 
@@ -128,10 +129,66 @@ In event sourcing, we build different read models from the same set of events, e
 
 ---
 
-## Running a Marathon: Order Matters
+## Weight Loss: Order Matters
 
-TODO: Rewrite because it's crap now.
+Some journeys require steps to happen in a specific order to be effective. Losing weight was one of them.
+If my weight loss was modeled as an event stream, it might look like this:
 
+```csharp
+public record EatingHabitsImproved(DateTime Timestamp);
+public record StartedStrengthTraining(DateTime Timestamp);
+public record FocusedOnRunning(DateTime Timestamp);
+public record BeganIntermittentFasting(DateTime Timestamp);
+public record ReachedHealthyWeight(double Weight, DateTime Timestamp);
+```
+
+And this is how it played out
+
+```csharp
+var weightLossJourney = new List<object>
+{
+    new EatingHabitsImproved(DateTime.Parse("2020-01-10")),
+    new StartedStrengthTraining(DateTime.Parse("2020-03-05")),
+    new FocusedOnRunning(DateTime.Parse("2020-06-15")),
+    new BeganIntermittentFasting(DateTime.Parse("2020-09-01")),
+    new ReachedHealthyWeight(79.5, DateTime.Parse("2021-02-10"))
+};
+
+```
+
+### Why Does Order Matter?
+
+Each event builds on the previous one:
+
+- Fixing eating habits first made sure my workouts had fuel.
+- Strength training first meant my body was stronger before I started running.
+- Intermittent fasting made sense only after I had built the right habits.
+
+What if the events happened out of order?
+
+```csharp
+var incorrectOrder = new List<object>
+{
+    new StartedStrengthTraining(DateTime.Parse("2020-01-10")), // Training first
+    new FocusedOnRunning(DateTime.Parse("2020-02-15")),
+    new EatingHabitsImproved(DateTime.Parse("2020-06-05")),  // Eating habits fixed later
+    new ReachedHealthyWeight(79.5, DateTime.Parse("2021-02-10"))
+};
+
+```
+
+The problem:
+
+- Training while still having bad eating habits could have led to frustration, slow progress, and giving up early.
+- The body wasn’t fueled properly, leading to fatigue, inconsistent performance, or injury.
+
+This is like processing "User Made Purchase" before "User Created Account" in event sourcing—it doesn’t make sense.
+In event sourcing, events define state over time.
+
+- If "Payment Processed" happens before "Order Placed", the system breaks.
+- If "User Logged In" happens before "User Registered", you have corrupted logic.
+- If "Weight Lost" happens before "Eating Habits Improved", the weight loss might be unsustainable—just like a projection built from the wrong event order might be misleading.
+  
 ---
 
 ## Losing a Parent: Events Shape Identity
