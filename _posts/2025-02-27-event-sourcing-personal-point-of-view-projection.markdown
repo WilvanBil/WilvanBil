@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Event Sourcing: Personal Point of View(Projection)"
-date: 2025-02-26 10:00:00 +0100
+date: 2025-02-27 10:00:00 +0100
 categories: Event Sourcing State Domain Driven Design
 description: "Events shape us, just like they shape systems. In event sourcing, events are immutable, but how we project them changes everything. The same is true for life."
 ---
@@ -130,11 +130,7 @@ In event sourcing, we build different read models from the same set of events, e
 
 ## Running a Marathon: Order Matters
 
-Training for a marathon isn’t about a single day—it’s a series of events. Each run builds on the previous one, adjusting pace, endurance, and recovery strategies.
-
-Consider the following events:
-
-
+TODO: Rewrite because it's crap now.
 
 ---
 
