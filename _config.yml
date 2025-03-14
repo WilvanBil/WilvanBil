@@ -1,5 +1,6 @@
 # General Site Settings
-title: Compiling life by Willy Alde
+title: Compiling life...
+author: Willy Alde
 email: willy.alde@gmail.com
 description: >-
   This is my personal corner of the web, powered by Jekyll and hosted on GitHub Pages. Here, you'll find content related to my professional journey as a dotnet enthusiast.
@@ -11,6 +12,9 @@ show_excerpts: true
 twitter_username: willyalde
 github_username: wilvanbil
 linkedin_username: willyalde
+mastodon:
+  - username: wilvanbil
+    instance: mastodon.social
 
 # Plugins and Themes
 remote_theme: jekyll/minima
