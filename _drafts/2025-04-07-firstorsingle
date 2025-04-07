@@ -1,0 +1,30 @@
+If someone ask you to pick the item with a specific characteristic from a box, would you pick the first item that fits the description or would you make sure you check all the items in the box and then pick the one that fits the description?
+What do you prefer? Semantics or performance?
+
+If the goal is to get it as fast as possible, you might go for the first option. If you want to be 100% sure you might go for the second option.
+Now you all know why you're here. Single vs First in LINQ.
+
+I review a lot of code. I read more code than I write. That's why it's important to me that the code I read is ehh readable. It should be clear and easy to understand. One thing that makes code clean and concise is semantics.
+Definition according to google:
+the branch of linguistics and logic concerned with meaning. The two main areas are logical semantics, concerned with matters such as sense and reference and presupposition and implication, and lexical semantics, concerned with the analysis of word meanings and relations between them.
+
+To me semantics is clarity. Clarity by being sure of what you want to execute with your code with as little asumptions as you can.
+
+When I codereview pull requests, one of the most common feedback that I give is when someone uses a FirstOrDefault() instead of SingleOrDefault() for semantic reasons.
+If you want a single item from a collection that has to adhere to this specific condition AND it should only be one, use SingleOrDefault(), if you don't care if there are multiple items that match your expression, use FirstOrDefault(). And there lies the problem. As coders we want to be precise. The question I'm asking is is getting the first match precise enough?
+
+Performance
+I've had a discussion with one of my teammates regarding this issue. The argument was that FirstOrDefault is better for performance reasons. Let's put that to the test:
+insert here code sample to benchmark FirstOrDefault vs SingleOrDefault.
+
+Now here's an interesting sidenote for his specific situation.
+He was searching on a primary key Id field. This implies that it is already unique and indexed. So for this specific case you could argument that it is ok to go for FirstOrDefault, because it's faster and it is searching on a primary key field.
+Let's look what's behind FirstOrDefault and SingleOrDefault.
+
+Performance is always welcome as long as it does not interfere with the semantics of the meaning of your code. That's my stance on this. Look at the following piece of code:
+insert piece of code that very performantly executes stuff
+
+TODO:
+What could I add?
+What are pros and cons?
+I'm not the first blog to address this, what differentiates mine from the others?
