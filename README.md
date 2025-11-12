@@ -1,9 +1,10 @@
-# Hey there! 👋
+Hello
 
 I'm a **.NET enthusiast** who believes in clean code, loves mentoring, and is currently diving deep into AI development.
 
 ## 🚀 What I'm Up To
 
+- **Working on my Discord bot** - Clean code, clean architecture, all the free resources on Azure, I'm using it
 - **Dabbling in AI with .NET** - Exploring how AI is changing the way we develop software
 - **Writing & Sharing** - Check out my latest thoughts at [blog.willyal.de](https://blog.willyal.de/)
 
@@ -11,7 +12,7 @@ I'm a **.NET enthusiast** who believes in clean code, loves mentoring, and is cu
 
 **Languages & Frameworks:**
 
-- .NET (my love ❤️)
+- .NET
 - A lil bit of Angular
 - A lil bit of a lil bit of React
 - Markdown (for all the documentation)
