@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "my-mcp-server-fd53e044": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "C:\\Users\\pinoy\\source\\repos\\WilvanBil.WilvanLabs.Dotnet\\WilvanBil.WilvanLabs.Dotnet.Mcp\\bin\\Debug\\net9.0\\WilvanBil.WilvanLabs.Dotnet.Mcp.dll"
+      ]
+    }
+  },
+  "inputs": []
+}

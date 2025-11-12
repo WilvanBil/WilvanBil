@@ -8,7 +8,7 @@
 This is a **Jekyll blog** hosted on GitHub Pages with the following key patterns:
 
 - **Blog engine**: Jekyll 3.9+ with `minima` theme
-- **Deployment**: Automated via GitHub Actions (`.github/workflows/jekyll.yml`) 
+- **Deployment**: Automated via GitHub Actions (`.github/workflows/jekyll.yml`)
 - **Content structure**: Posts in `_posts/`, drafts in `_drafts/`, layouts in `_layouts/`
 - **Asset management**: Images stored in `assets/` with post-specific subfolders
 - **Auto-rebuild**: Scheduled weekly rebuild (Wednesdays 9:30 UTC) via cron
@@ -20,7 +20,7 @@ Your #1 job is to push me on **tone** and **emotional connection** with the read
 
 ---
 
-### Jekyll Development 
+### Jekyll Development
 
 When working with this blog's technical aspects:
 
@@ -69,7 +69,7 @@ Based on existing posts, follow these established patterns:
 
 ### Code Examples
 - Language: **C#**, .NET 8+ unless specified
-- Include `using` statements when needed  
+- Include `using` statements when needed
 - Show before/after examples for improvements
 - Add comments explaining **intent** and **trade-offs**
 
@@ -199,3 +199,4 @@ When I paste 3–5 posts, do this once:
 1. Extract a **style profile** (tone traits, pacing, common structures, favorite phrases, taboo phrases).
 2. Show a **3-bullet summary** of the style profile for confirmation.
 3. Use that profile for all future drafts until I say otherwise.
+````
