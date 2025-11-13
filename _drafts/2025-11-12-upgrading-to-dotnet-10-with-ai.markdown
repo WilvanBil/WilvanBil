@@ -26,7 +26,7 @@ Why?
 
 Because VS Code has a feature that Visual Studio 2026 doesn't (yet): **Generate Agent Instructions**. When you open a repo in VS Code with GitHub Copilot, you can ask it to generate custom agent instructions tailored to your codebase. It analyzes your project structure, conventions, and patterns, then creates instructions that help AI understand your specific project better.
 
-![Build with Agent - Generate Agent Instructions]({{ site.baseurl }}/assets/upgrading-dotnet-10-ai/build-with-agent.png)
+![Build with Agent - Generate Agent Instructions]({{ site.baseurl }}/assets/upgrading-to-dotnet-10-with-ai/generate-agent-instructions.png)
 
 This was exactly what I needed. Before making any changes, I wanted AI to understand my package—not just generically, but _specifically_. What patterns do I use? How do I structure tests? What conventions matter to me?
 
