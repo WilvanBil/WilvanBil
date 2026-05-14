@@ -124,13 +124,13 @@ Side note: on a couple of runs I accidentally answered the first two questions c
 
 #### In hindsight
 
-We were so deep in optimizing the strat we had that we never stopped to question it. When you are in that mode, iteration feels like progress. And it is. But sometimes the biggest gain is not making your current approach faster. It is realizing there was a better approach the whole time.
+I was so deep in optimizing the strat I had that I never stopped to question it. When you are in that mode, iteration feels like progress. And it is. But sometimes the biggest gain is not making your current approach faster. It is realizing there was a better approach the whole time.
 
-We kept one 1-point question to cross the threshold before the 2-pointers unlocked. What if we skipped that too? Fail all three 1-pointers, then answer three 2-point questions and one 3-point question.
+I kept one 1-point question to cross the threshold before the 2-pointers unlocked. What if I skipped that too? Fail all three 1-pointers, then answer three 2-point questions and one 3-point question.
 
 That is 0 + 0 + 0 + 2 + 2 + 2 + 3 = **9**. Exactly 9. One fewer question. And the 2-pointers are faster to answer correctly than the 3-pointers.
 
-We never tried it. We were too busy getting faster at the wrong sequence.
+I never tried it. I was too busy getting faster at the wrong sequence.
 
 ---
 
