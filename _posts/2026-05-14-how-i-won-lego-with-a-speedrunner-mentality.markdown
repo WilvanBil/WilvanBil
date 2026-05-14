@@ -74,7 +74,7 @@ Before every run, you type your name into a text field and click a Start button 
 
 I had been clicking Start, then dragging my mouse up to the center. A small inefficiency, but it happened every single run.
 
-The fix: fill in your name, move your mouse to the center between options 2 and 3, and hit **Enter** instead of clicking Start. The button responds to keyboard input. By the time the first question appeared, my cursor was already in position.
+Sam spotted it: fill in your name, move your mouse to the center between options 2 and 3, and hit **Enter** instead of clicking Start. The button responds to keyboard input. By the time the first question appeared, my cursor was already in position.
 
 That saved another second. We were in sub 16 territory. I say "we" because by this point, a few other people at the conference had noticed what I was doing and started comparing notes.
 
@@ -90,7 +90,7 @@ This is where it stopped being a trivia challenge and started being something el
 
 I had been focused on going faster mechanically: less mouse movement, better memory, smarter inputs. But I had not looked at the game itself.
 
-We all knew the goal was 9 points. What we had not stopped to ask was: *how few questions do you actually need to answer to get there?*
+Jurgen, Sam, and I started picking apart the point system. We all knew the goal was 9 points. What we had not stopped to ask was: *how few questions do you actually need to answer to get there?*
 
 The points were structured like this:
 
