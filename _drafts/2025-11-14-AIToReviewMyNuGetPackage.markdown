@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "I used AI to review my NuGet package and you won't believe"
-date: TODO
+date: 2025-11-14
 categories:
 description: ""
 ---
