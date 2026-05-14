@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Being frugal with copilot"
-date: TODO
+date: 2026-01-01 00:00:00 +0000
 categories:
 description: ""
 ---
