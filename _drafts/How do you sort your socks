@@ -1,0 +1,16 @@
+How do you sort your socks?
+
+Last night I was doing my laundry and I got to the socks part. I've been doing this a long time I think around when I was 6 until now. I've always done it in the same way. Yes this is a blog about coding I know. We'll get there.
+
+Let's sketch the situation. You have a full basket of (hopefully) an even number of socks fresh out of the dryer. They're all scrambled together and you need to create pairs to put them away. What I always did was get a sock and look in the pile for the matching pair. I've done this. For over 10 years.
+
+Then I started to do it a bit different, I started so sort the socks by colour. Which made it easier to find for me.
+
+Now I think it was last year while I was hanging around with the boys on Discord voice chat and we were talking about work. Something regarding optimizing an SQL query but I don't remember what the exact argument was. I think it was a SELECt statement before or after a GROUP BY. [should I add code examples] I argumented that it did not matter, because you're searching the same amount of records. But then a friend on Discord convinced me otherwise. [should I add reasoning] He explained to me the sock situation. He asked me "How do you sort your socks?". I thought it was a ridiculous question because my method was flawless and perfect and could not be optimized. He said if you group them all first by pair and then create the pair it would be much faster. It took a while before the neurons in my brain activated because something in my mind was screaminn "nope, amount is the same, it should not be faster".
+
+So I applied it next time I folded the laundry.
+I first sorted by colour. Then I put the matching socks next to eachother. I did that for all socks. And at the end I created the pairs. [maybe there's something I could ask if people create pairs of socks or just throw them in a box and then look for it when they need it] It was much much faster. It also felt much faster. The cognitive load and amount of actions was lower. [what could I add to make the impact feel better?] I was done quicker and had more time to do other stuff.
+
+[Feels short, what could I add more?]
+
+Now if only there was a coding optimization that could speed up my ironing...
